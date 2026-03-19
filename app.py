@@ -2,12 +2,12 @@
 """
 AI Knowledge Base Assistant - Main Application Runner
 """
-
+ 
 import subprocess
 import sys
 import os
 from pathlib import Path
-
+ 
 def run_api():
     """Run the FastAPI server"""
     print("Starting FastAPI server...")
@@ -19,7 +19,7 @@ def run_api():
         "--port", "8000",
         "--reload"
     ])
-
+ 
 def run_frontend():
     """Run the Streamlit frontend"""
     print("Starting Streamlit frontend...")
@@ -30,12 +30,12 @@ def run_frontend():
         "--server.port", "8501",
         "--server.address", "0.0.0.0"
     ])
-
+ 
 def install_dependencies():
     """Install required dependencies"""
     print("Installing dependencies...")
     subprocess.run([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
-
+ 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         command = sys.argv[1]
