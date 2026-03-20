@@ -1,16 +1,9 @@
-fastapi==0.104.1
-uvicorn==0.24.0
-streamlit==1.29.0
-langchain==0.1.0
-faiss-cpu==1.7.4
-pypdf==3.17.4
-python-multipart==0.0.6
-sentence-transformers==2.2.2
-<<<<<<< HEAD
-chromadb==0.4.18
-python-dotenv==1.0.0
-requests==2.31.0
-=======
-python-dotenv==1.0.0
-requests==2.31.0
->>>>>>> 28c31b655ddd0e5869e8886a188e07280ecc7db6
+fastapi
+uvicorn
+streamlit
+numpy
+pypdf
+python-multipart
+python-dotenv
+requests
+scikit-learn

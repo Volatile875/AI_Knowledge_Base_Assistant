@@ -11,19 +11,42 @@ st.set_page_config(
 )
 
 # API base URL
-API_BASE_URL = "http://localhost:8000"
+API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:8000")
+REQUEST_TIMEOUT = 120
+
+
+def get_error_message(response):
+    """Extract a readable error message from an API response."""
+    try:
+        return response.json().get("detail", response.text or "Unknown error")
+    except ValueError:
+        return response.text or "Unknown error"
+
+
+def api_is_available():
+    """Return True when the FastAPI backend is reachable."""
+    try:
+        response = requests.get(f"{API_BASE_URL}/health", timeout=5)
+        return response.ok
+    except requests.RequestException:
+        return False
 
 def upload_pdf(file):
     """Upload PDF to the API"""
     files = {"file": (file.name, file, "application/pdf")}
-    response = requests.post(f"{API_BASE_URL}/upload-pdf", files=files)
+    response = requests.post(
+        f"{API_BASE_URL}/upload-pdf",
+        files=files,
+        timeout=REQUEST_TIMEOUT,
+    )
     return response
 
 def ask_question(question):
     """Send question to API and get response"""
     response = requests.post(
         f"{API_BASE_URL}/ask",
-        json={"question": question}
+        json={"question": question},
+        timeout=REQUEST_TIMEOUT,
     )
     return response
 
@@ -34,6 +57,10 @@ def main():
     # Sidebar for PDF upload
     with st.sidebar:
         st.header("📄 Document Management")
+        if api_is_available():
+            st.success("API connected")
+        else:
+            st.error("API unavailable on port 8000. Start it with `python app.py api`.")
 
         # File uploader
         uploaded_file = st.file_uploader("Upload PDF", type=['pdf'])
@@ -41,11 +68,18 @@ def main():
         if uploaded_file is not None:
             if st.button("Process PDF"):
                 with st.spinner("Processing PDF..."):
-                    response = upload_pdf(uploaded_file)
-                    if response.status_code == 200:
-                        st.success("PDF processed successfully!")
-                    else:
-                        st.error(f"Error: {response.json().get('detail', 'Unknown error')}")
+                    try:
+                        response = upload_pdf(uploaded_file)
+                        if response.status_code == 200:
+                            st.success("PDF processed successfully!")
+                        else:
+                            st.error(f"Error: {get_error_message(response)}")
+                    except requests.exceptions.ConnectionError:
+                        st.error("Cannot connect to the API. Start the FastAPI server on port 8000.")
+                    except requests.exceptions.Timeout:
+                        st.error("The upload timed out. Please try again after the API is ready.")
+                    except requests.RequestException as exc:
+                        st.error(f"Request failed: {exc}")
 
         # Display current PDFs in data directory
         st.subheader("Current PDFs")
@@ -111,7 +145,7 @@ def main():
                             "sources": sources
                         })
                     else:
-                        error_msg = response.json().get('detail', 'Unknown error')
+                        error_msg = get_error_message(response)
                         st.error(f"Error: {error_msg}")
                         st.session_state.messages.append({
                             "role": "assistant",
@@ -123,6 +157,12 @@ def main():
                     st.session_state.messages.append({
                         "role": "assistant",
                         "content": "Error: Cannot connect to the API. Make sure the FastAPI server is running."
+                    })
+                except requests.exceptions.Timeout:
+                    st.error("The request timed out. The API may still be loading the model or indexing the PDF.")
+                    st.session_state.messages.append({
+                        "role": "assistant",
+                        "content": "Error: The request timed out while waiting for the API."
                     })
                 except Exception as e:
                     st.error(f"An error occurred: {str(e)}")
