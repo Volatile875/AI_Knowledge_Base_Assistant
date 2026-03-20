@@ -16,8 +16,7 @@ def run_api():
         sys.executable, "-m", "uvicorn",
         "api:app",
         "--host", "0.0.0.0",
-        "--port", "8000",
-        "--reload"
+        "--port", "8000"
     ])
  
 def run_frontend():
