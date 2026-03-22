@@ -8,6 +8,7 @@ import requests
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from pypdf import PdfReader
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -33,7 +34,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8501"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -330,3 +331,12 @@ async def health_check():
         "ollama_model": OLLAMA_MODEL,
         "embedding_model": "tf-idf",
     }
+
+
+@app.get("/", response_class=HTMLResponse)
+async def read_index():
+    """Serve the single-file HTML frontend."""
+    index_path = BASE_DIR / "static" / "index.html"
+    if not index_path.exists():
+        raise HTTPException(status_code=404, detail="Frontend index.html not found.")
+    return index_path.read_text(encoding="utf-8")
