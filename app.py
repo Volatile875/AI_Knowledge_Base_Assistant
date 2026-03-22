@@ -9,25 +9,14 @@ import os
 from pathlib import Path
  
 def run_api():
-    """Run the FastAPI server"""
-    print("Starting FastAPI server...")
+    """Run the FastAPI server which now serves the static frontend"""
+    print("Starting AI Knowledge Base Assistant on http://localhost:8000")
     os.chdir(Path(__file__).parent)
     subprocess.run([
         sys.executable, "-m", "uvicorn",
         "api:app",
         "--host", "0.0.0.0",
         "--port", "8000"
-    ])
- 
-def run_frontend():
-    """Run the Streamlit frontend"""
-    print("Starting Streamlit frontend...")
-    os.chdir(Path(__file__).parent)
-    subprocess.run([
-        sys.executable, "-m", "streamlit", "run",
-        "frontend.py",
-        "--server.port", "8501",
-        "--server.address", "0.0.0.0"
     ])
  
 def install_dependencies():
@@ -40,18 +29,10 @@ if __name__ == "__main__":
         command = sys.argv[1]
         if command == "api":
             run_api()
-        elif command == "frontend":
-            run_frontend()
         elif command == "install":
             install_dependencies()
         else:
-            print("Usage: python app.py [api|frontend|install]")
+            print("Usage: python app.py [api|install]")
     else:
-        print("AI Knowledge Base Assistant")
-        print("Usage:")
-        print("  python app.py install    # Install dependencies")
-        print("  python app.py api        # Run FastAPI server")
-        print("  python app.py frontend   # Run Streamlit frontend")
-        print("\nOr run both servers in separate terminals:")
-        print("  Terminal 1: python app.py api")
-        print("  Terminal 2: python app.py frontend")
+        # Default behavior: run the API server
+        run_api()
