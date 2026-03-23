@@ -28,7 +28,7 @@ Build an AI assistant that:
 
 3. **AI Components**
    - **Embeddings**: Convert text to vector representations
-   - **Vector Store**: FAISS/Chroma for efficient similarity search
+   - **Vector Store**: Chroma for efficient similarity search
    - **LLM**: OpenAI GPT for generating responses
    - **Retrieval**: Semantic search for relevant document chunks
 
