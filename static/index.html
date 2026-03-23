@@ -624,6 +624,61 @@
                 opacity: 1;
             }
         }
+        /* User message animation */
+        .user-message-animated {
+            opacity: 0;
+            transform: translateX(50px); /* Start from right */
+            animation: fadeInSlideInRight 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInSlideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        /* Loader CSS */
+        .loader {
+            width: fit-content;
+            font-family: monospace;
+            white-space: pre;
+            font-size: 30px;
+            line-height: 1.2em;
+            height:1.2em;
+            overflow: hidden;
+            color: #b7102a; /* Using primary color for the loader text */
+        }
+        .loader:before {
+            content:"Loading...\A⌰oading...\A⌰⍜ading...\A⌰⍜⏃ding...\A⌰⍜⏃⎅ing...\A⌰⍜⏃⎅⟟ng...\A⌰⍜⏃⎅⟟⋏g...\A⌰⍜⏃⎅⟟⋏☌...\A⌰⍜⏃⎅⟟⋏☌⟒..\A⌰⍜⏃⎅⟟⋏☌⟒⏁.\A⌰⍜⏃⎅⟟⋏☌⟒⏁⋔";
+            white-space: pre;
+            display: inline-block;
+            animation: l39 1s infinite steps(11) alternate;
+        }
+
+        @keyframes l39 {
+            100%{transform: translateY(-100%)}
+        }
+
+        /* Custom Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--surface-container-high); /* Color of the track */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8f6f6e; /* Color of the scroll thumb (outline) */
+            border-radius: 10px;
+            border: 2px solid #efe7d9; /* Padding around thumb (surface-container-high) */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b7102a; /* Color when hovering over thumb (primary) */
+        }
     </style>
 </head>
 
@@ -653,6 +708,7 @@
         </div>
     </div>
 
+<<<<<<< Updated upstream
     <!-- Main Content -->
     <div class="main-content">
         <!-- Mobile Header -->
@@ -672,6 +728,22 @@
                     <span class="status-dot"></span>
                     <p style="font-size: 12px; font-weight: 600; color: var(--text-muted);" id="api-status">
                         Connecting...</p>
+=======
+    <!-- Main Canvas -->
+    <main class="pl-72 pt-20 h-screen flex flex-col bauhaus-grid">
+        <!-- Chat Area -->
+        <section class="flex-grow overflow-y-auto px-12 py-12 flex flex-col gap-12 w-full" id="chat-messages">
+            <!-- System/AI Welcome - Initial message, will be replaced by JS -->
+            <div class="flex flex-col gap-2 max-w-2xl self-start">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+                    <span class="w-2 h-2 bg-primary"></span> System Alpha
+                </span>
+                <div class="rectangular-bubble bg-white p-6">
+                    <p class="text-sm md:text-base leading-relaxed">
+                        Greetings! I specialize in extracting knowledge from your Dell documentation. Upload your PDFs and
+                        I'll help you find answers instantly.
+                    </p>
+>>>>>>> Stashed changes
                 </div>
             </div>
             <div style="text-align: right; color: var(--text-muted); font-size: 11px; font-weight: 500;">f
@@ -830,6 +902,7 @@
             const msgDiv = document.createElement('div');
             msgDiv.className = `message ${role}-message`;
 
+<<<<<<< Updated upstream
             msgDiv.innerHTML = `
                 <div class="message-avatar">${role === 'user' ? '👤' : '🤖'}</div>
                 <div class="message-content">
@@ -843,6 +916,34 @@
                                     <div style="opacity: 0.85; line-height: 1.5">${src.content}</div>
                                 </div>
                             `).join('')}
+=======
+            if (role === 'user') {
+                msgContainer.classList.add('user-message-animated');
+            }
+
+            const avatarAndRole = document.createElement('span');
+            avatarAndRole.className = `text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2`;
+            if (role === 'user') {
+                avatarAndRole.innerHTML = `User Node <span class="w-2 h-2 bg-tertiary"></span>`;
+            } else {
+                avatarAndRole.innerHTML = `<span class="w-2 h-2 bg-primary"></span> System Alpha`;
+            }
+            msgContainer.appendChild(avatarAndRole);
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `rectangular-bubble p-6 ${role === 'user' ? 'bg-surface-container-high' : 'bg-white'} relative overflow-hidden`;
+            messageBubble.innerHTML = `<p class="text-sm md:text-base leading-relaxed mb-4">${text}</p>`;
+
+            if (sources && sources.length > 0) {
+                const sourcesContainer = document.createElement('div');
+                sourcesContainer.className = 'mt-4 pt-4 border-t-2 border-outline';
+                sourcesContainer.innerHTML = `<p class="text-[10px] font-bold uppercase tracking-widest text-secondary mb-2">Sources:</p>`;
+                sources.forEach(src => {
+                    sourcesContainer.innerHTML += `
+                        <div class="mb-2 p-3 border-2 border-outline bg-surface-container-low">
+                            <p class="text-xs font-bold text-primary">${src.source} (Page ${src.page})</p>
+                            <p class="text-xs text-on-surface-variant">${src.content}</p>
+>>>>>>> Stashed changes
                         </div>
                     ` : ''}
                 </div>
@@ -860,6 +961,7 @@
             chatInput.value = '';
             sendBtn.disabled = true;
 
+<<<<<<< Updated upstream
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message bot-message';
             typingDiv.id = 'typing-indicator-msg';
@@ -867,6 +969,19 @@
                 <div class="message-avatar">🤖</div>
                 <div class="message-content">
                     <div class="typing-indicator"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+=======
+            const typingContainer = document.createElement('div');
+            typingContainer.className = 'flex flex-col gap-2 max-w-2xl self-start';
+            typingContainer.id = 'typing-indicator-msg';
+            typingContainer.innerHTML = `
+                <span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+                    <span class="w-2 h-2 bg-primary"></span> System Alpha
+                </span>
+                <div class="rectangular-bubble bg-white p-6">
+                    <div class="flex items-center gap-2">
+                        <div class="loader"></div>
+                    </div>
+>>>>>>> Stashed changes
                 </div>
             `;
             chatMessages.appendChild(typingDiv);
@@ -880,7 +995,16 @@
                 });
 
                 const data = await response.json();
+<<<<<<< Updated upstream
                 document.getElementById('typing-indicator-msg').remove();
+=======
+
+                // Add 3-second delay before displaying the answer, ensuring loader is visible during this time
+                await new Promise(resolve => setTimeout(resolve, 3000)); 
+                if (document.getElementById('typing-indicator-msg')) {
+                    document.getElementById('typing-indicator-msg').remove();
+                }
+>>>>>>> Stashed changes
 
                 if (response.ok) {
                     addMessage(data.answer, 'bot', data.sources);
