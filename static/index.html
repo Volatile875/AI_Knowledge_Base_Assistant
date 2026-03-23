@@ -1,768 +1,547 @@
 <!DOCTYPE html>
 <html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>CH-01 AI | Digital Workshop</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&family=Inter:wght@400;500;600;700&display=swap%22 rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap%22 rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap%22 rel="stylesheet"/>
-<script id="tailwind-config">
-
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>CH-01 AI | Digital Workshop</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
       tailwind.config = {
-
         darkMode: "class",
-
         theme: {
-
           extend: {
-
             colors: {
-
               "outline-variant": "#e4bebc",
-
               "on-secondary-fixed-variant": "#30476a",
-
               "inverse-on-surface": "#f8f0e2",
-
               "on-tertiary-fixed": "#271900",
-
               "surface-bright": "#fff8f0",
-
               "secondary-fixed": "#d5e3ff",
-
               "on-primary-fixed-variant": "#92001c",
-
               "outline": "#8f6f6e",
-
               "inverse-primary": "#ffb3b1",
-
               "surface-tint": "#bb152c",
-
               "secondary-fixed-dim": "#b0c7f1",
-
               "primary": "#b7102a",
-
               "secondary": "#485f84",
-
               "primary-fixed": "#ffdad8",
-
               "surface-container-lowest": "#ffffff",
-
               "on-secondary-fixed": "#001b3c",
-
               "tertiary-fixed": "#ffdea9",
-
               "primary-container": "#db313f",
-
               "on-surface": "#1e1b13",
-
               "on-surface-variant": "#5b403f",
-
               "on-secondary": "#ffffff",
-
               "primary-fixed-dim": "#ffb3b1",
-
               "surface-dim": "#e1d9cb",
-
               "surface-variant": "#e9e2d4",
-
               "inverse-surface": "#343027",
-
               "on-primary": "#ffffff",
-
               "error-container": "#ffdad6",
-
               "surface-container-highest": "#e9e2d4",
-
               "on-secondary-container": "#445a7f",
-
               "surface-container": "#f5eddf",
-
               "tertiary-fixed-dim": "#ffba27",
-
               "surface-container-low": "#fbf3e4",
-
               "surface": "#fff8f0",
-
               "on-tertiary-container": "#fffbff",
-
               "on-error": "#ffffff",
-
               "on-primary-fixed": "#410007",
-
               "on-tertiary-fixed-variant": "#5e4100",
-
               "background": "#fff8f0",
-
               "secondary-container": "#bbd3fd",
-
               "tertiary-container": "#996c00",
-
               "tertiary": "#7a5500",
-
               "on-error-container": "#93000a",
-
               "on-primary-container": "#fffbff",
-
               "surface-container-high": "#efe7d9",
-
               "on-background": "#1e1b13",
-
               "on-tertiary": "#ffffff",
-
               "error": "#ba1a1a"
-
             },
-
             fontFamily: {
-
               "headline": ["Manrope"],
-
               "body": ["Inter"],
-
               "label": ["Inter"]
-
             },
-
             borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
-
           },
-
         },
-
       }
-</script>
-<style>
-
+    </script>
+    <style>
         .material-symbols-outlined {
-
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-
         }
-
         body {
-
             background-color: #fff8f0;
-
             color: #1e1b13;
-
         }
-
         .bauhaus-grid {
-
             background-size: 40px 40px;
-
             background-image: radial-gradient(circle, #e9e2d4 1px, transparent 1px);
-
         }
-
         .rectangular-bubble {
-
             border: 2px solid #1e1b13;
-
             box-shadow: 4px 4px 0px 0px #1e1b13;
-
         }
-
         .bauhaus-accent-circle {
-
             width: 300px;
-
             height: 300px;
-
             background-color: #485f84;
-
             opacity: 0.1;
-
             border-radius: 9999px;
-
             position: fixed;
-
             top: -50px;
-
             right: -50px;
-
             z-index: -1;
-
         }
-
         .bauhaus-accent-square {
-
             width: 200px;
-
             height: 200px;
-
             background-color: #b7102a;
-
             opacity: 0.05;
-
             position: fixed;
-
             bottom: 10%;
-
             left: 20%;
-
             z-index: -1;
-
             transform: rotate(15deg);
-
         }
-</style>
+        /* User message animation */
+        .user-message-animated {
+            opacity: 0;
+            transform: translateX(50px); /* Start from right */
+            animation: fadeInSlideInRight 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInSlideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        /* Loader CSS */
+        .loader {
+            width: fit-content;
+            font-family: monospace;
+            white-space: pre;
+            font-size: 30px;
+            line-height: 1.2em;
+            height:1.2em;
+            overflow: hidden;
+            color: #b7102a; /* Using primary color for the loader text */
+        }
+        .loader:before {
+            content:"Loading...\A⌰oading...\A⌰⍜ading...\A⌰⍜⏃ding...\A⌰⍜⏃⎅ing...\A⌰⍜⏃⎅⟟ng...\A⌰⍜⏃⎅⟟⋏g...\A⌰⍜⏃⎅⟟⋏☌...\A⌰⍜⏃⎅⟟⋏☌⟒..\A⌰⍜⏃⎅⟟⋏☌⟒⏁.\A⌰⍜⏃⎅⟟⋏☌⟒⏁⋔";
+            white-space: pre;
+            display: inline-block;
+            animation: l39 1s infinite steps(11) alternate;
+        }
+
+        @keyframes l39 {
+            100%{transform: translateY(-100%)}
+        }
+
+        /* Custom Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
+        ::-webkit-scrollbar-track {
+            background: #efe7d9; /* Color of the track (surface-container-high) */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8f6f6e; /* Color of the scroll thumb (outline) */
+            border-radius: 10px;
+            border: 2px solid #efe7d9; /* Padding around thumb (surface-container-high) */
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b7102a; /* Color when hovering over thumb (primary) */
+        }
+    </style>
 </head>
 <body class="font-body selection:bg-primary selection:text-white">
-<div class="bauhaus-accent-circle"></div>
-<div class="bauhaus-accent-square"></div>
- 
+    <div class="bauhaus-accent-circle"></div>
+    <div class="bauhaus-accent-square"></div>
+
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden md:hidden" id="sidebar-overlay"></div>
- 
+
     <!-- Sidebar -->
-<aside class="fixed left-0 top-0 h-full flex flex-col pt-24 pb-8 z-40 bg-[#fbf3e4] dark:bg-zinc-900 h-screen w-72 rounded-none border-r-4 border-[#b7102a]" id="sidebar">
-<div class="px-6 mb-8">
-<h2 class="text-xl font-black text-[#b7102a] font-headline uppercase tracking-tighter">WORKSHOP</h2>
-<p class="font-['Inter'] font-medium text-xs uppercase tracking-widest text-secondary">V.1.0.4</p>
-</div>
-<nav class="flex-grow flex flex-col">
-<!-- The original HTML did not have these navigation buttons, keeping only essential functional elements -->
-<!-- <a class="bg-[#b7102a] text-white font-bold px-6 py-4 flex items-center gap-4 rounded-none transition-transform active:scale-[0.98]" href="#" id="new-session-btn">
-<span class="material-symbols-outlined" data-icon="add_box">add_box</span> New Session </a>
-<a class="text-[#485f84] dark:text-zinc-400 px-6 py-4 flex items-center gap-4 hover:bg-[#b7102a]/10 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="format_list_bulleted">format_list_bulleted</span> Chat History </a>
-<a class="text-[#485f84] dark:text-zinc-400 px-6 py-4 flex items-center gap-4 hover:bg-[#b7102a]/10 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="Architecture">architecture</span> Model Lab </a>
-<a class="text-[#485f84] dark:text-zinc-400 px-6 py-4 flex items-center gap-4 hover:bg-[#b7102a]/10 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span> User Profile </a> -->
- 
+    <aside class="fixed left-0 top-0 h-full flex flex-col pt-24 pb-8 z-40 bg-[#fbf3e4] dark:bg-zinc-900 h-screen w-72 rounded-none border-r-4 border-[#b7102a]" id="sidebar">
+        <div class="px-6 mb-8">
+            <h2 class="text-xl font-black text-[#b7102a] font-headline uppercase tracking-tighter">WORKSHOP</h2>
+            <p class="font-['Inter'] font-medium text-xs uppercase tracking-widest text-secondary">V.1.0.4</p>
+        </div>
+        <nav class="flex-grow flex flex-col">
+            <!-- The original HTML did not have these navigation buttons, keeping only essential functional elements -->
+            <!-- <a class="bg-[#b7102a] text-white font-bold px-6 py-4 flex items-center gap-4 rounded-none transition-transform active:scale-[0.98]" href="#" id="new-session-btn">
+                <span class="material-symbols-outlined" data-icon="add_box">add_box</span> New Session </a>
+            <a class="text-[#485f84] dark:text-zinc-400 px-6 py-4 flex items-center gap-4 hover:bg-[#b7102a]/10 transition-all duration-150" href="#">
+                <span class="material-symbols-outlined" data-icon="format_list_bulleted">format_list_bulleted</span> Chat History </a>
+            <a class="text-[#485f84] dark:text-zinc-400 px-6 py-4 flex items-center gap-4 hover:bg-[#b7102a]/10 transition-all duration-150" href="#">
+                <span class="material-symbols-outlined" data-icon="Architecture">architecture</span> Model Lab </a>
+            <a class="text-[#485f84] dark:text-zinc-400 px-6 py-4 flex items-center gap-4 hover:bg-[#b7102a]/10 transition-all duration-150" href="#">
+                <span class="material-symbols-outlined" data-icon="account_circle">account_circle</span> User Profile </a> -->
+
             <!-- Upload Knowledge Section - Adapted from original -->
-<div class="px-6 mt-8">
-<h3 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4">Upload Knowledge</h3>
-<div class="relative w-full h-32 border-2 border-dashed border-outline rounded-none flex flex-col items-center justify-center cursor-pointer bg-surface-container-low hover:border-primary hover:bg-primary/10 transition-all" id="drop-zone">
-<input type="file" id="pdf-upload" accept=".pdf" class="absolute w-full h-full opacity-0 cursor-pointer">
-<div class="text-4xl text-primary mb-2">📄</div>
-<div class="text-xs text-outline-variant text-center px-4" id="file-name-display">Drag & Drop PDF or Click</div>
-</div>
-<button class="w-full bg-primary text-white py-3 font-headline font-bold text-xs tracking-widest hover:bg-primary-container transition-colors duration-200 uppercase mt-4" id="process-btn" disabled>Process Knowledge</button>
-</div>
- 
+            <div class="px-6 mt-8">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4">Upload Knowledge</h3>
+                <div class="relative w-full h-32 border-2 border-dashed border-outline rounded-none flex flex-col items-center justify-center cursor-pointer bg-surface-container-low hover:border-primary hover:bg-primary/10 transition-all" id="drop-zone">
+                    <input type="file" id="pdf-upload" accept=".pdf" class="absolute w-full h-full opacity-0 cursor-pointer">
+                    <div class="text-4xl text-primary mb-2">📄</div>
+                    <div class="text-xs text-outline-variant text-center px-4" id="file-name-display">Drag & Drop PDF or Click</div>
+                </div>
+                <button class="w-full bg-primary text-white py-3 font-headline font-bold text-xs tracking-widest hover:bg-primary-container transition-colors duration-200 uppercase mt-4" id="process-btn" disabled>Process Knowledge</button>
+            </div>
+
             <!-- Documents List - Adapted from original -->
-<div class="px-6 mt-8 flex-grow overflow-y-auto" id="doc-list">
-<h3 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4">Documents</h3>
-<div class="text-xs text-outline-variant py-2">Refreshing documents...</div>
-</div>
- 
+            <div class="px-6 mt-8 flex-grow overflow-y-auto" id="doc-list">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4">Documents</h3>
+                <div class="text-xs text-outline-variant py-2">Refreshing documents...</div>
+            </div>
+
         </nav>
-<!-- The original HTML did not have an "UPGRADE PRO" button -->
-<!-- <div class="px-6 mt-auto">
-<button class="w-full bg-tertiary-container text-white py-4 font-headline font-bold text-xs tracking-widest hover:bg-[#996c00] transition-colors duration-200 uppercase"> UPGRADE PRO </button>
-</div> -->
-</aside>
- 
+        <!-- The original HTML did not have an "UPGRADE PRO" button -->
+        <!-- <div class="px-6 mt-auto">
+            <button class="w-full bg-tertiary-container text-white py-4 font-headline font-bold text-xs tracking-widest hover:bg-[#996c00] transition-colors duration-200 uppercase"> UPGRADE PRO </button>
+        </div> -->
+    </aside>
+
     <!-- TopAppBar -->
-<header class="fixed top-0 right-0 left-0 flex justify-between items-center w-full px-8 h-20 border-b-4 border-[#b7102a] bg-[#fff8f0] dark:bg-zinc-950 z-50">
-<div class="flex items-center gap-8 pl-72">
-<span class="text-2xl font-black tracking-tighter text-[#b7102a] dark:text-red-600 font-headline uppercase">AI KNOWLEDGE BASE ASSISTANT</span>
-</div>
-<div class="flex items-center gap-4">
-<!-- The original HTML did not have settings or help buttons in the header -->
-<!-- <button class="p-2 text-[#b7102a] hover:bg-[#b7102a] hover:text-white transition-colors duration-200">
-<span class="material-symbols-outlined" data-icon="settings">settings</span> </button>
-<button class="p-2 text-[#b7102a] hover:bg-[#b7102a] hover:text-white transition-colors duration-200">
-<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span> </button> -->
-</div>
-</header>
- 
+    <header class="fixed top-0 right-0 left-0 flex justify-between items-center w-full px-8 h-20 border-b-4 border-[#b7102a] bg-[#fff8f0] dark:bg-zinc-950 z-50">
+        <div class="flex items-center gap-8 pl-72">
+            <span class="text-2xl font-black tracking-tighter text-[#b7102a] dark:text-red-600 font-headline uppercase">AI KNOWLEDGE BASE ASSISTANT</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <!-- The original HTML did not have settings or help buttons in the header -->
+            <!-- <button class="p-2 text-[#b7102a] hover:bg-[#b7102a] hover:text-white transition-colors duration-200">
+                <span class="material-symbols-outlined" data-icon="settings">settings</span> </button>
+            <button class="p-2 text-[#b7102a] hover:bg-[#b7102a] hover:text-white transition-colors duration-200">
+                <span class="material-symbols-outlined" data-icon="help_outline">help_outline</span> </button> -->
+        </div>
+    </header>
+
     <!-- Mobile Header - Adapted from original -->
 <div class="fixed top-0 left-0 w-full h-20 flex justify-between items-center px-4 bg-[#fff8f0] dark:bg-zinc-950 border-b-4 border-[#b7102a] z-50 md:hidden">
 <button class="text-2xl text-primary" id="menu-toggle">☰</button>
 <span class="text-xl font-black tracking-tighter text-primary font-headline uppercase">CH-01 AI</span>
 <div style="width: 24px;"></div> <!-- Spacer -->
 </div>
-<div>
-    
-</div>
  
     <!-- Main Canvas -->
-<main class="pl-72 pt-20 h-screen flex flex-col bauhaus-grid">
-<!-- Chat Area -->
-<section class="flex-grow overflow-y-auto px-12 py-12 flex flex-col gap-12 max-w-5xl mx-auto w-full" id="chat-messages">
-<!-- System/AI Welcome - Initial message, will be replaced by JS -->
-<div class="flex flex-col gap-2 max-w-2xl self-start">
-<span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
-<span class="w-2 h-2 bg-primary"></span> System Alpha
-</span>
-<div class="rectangular-bubble bg-white p-6">
-<p class="text-sm md:text-base leading-relaxed">
-
+    <main class="pl-72 pt-20 h-screen flex flex-col bauhaus-grid">
+        <!-- Chat Area -->
+<section class="flex-grow overflow-y-auto px-12 py-12 flex flex-col gap-12 w-full" id="chat-messages">
+            <!-- System/AI Welcome - Initial message, will be replaced by JS -->
+            <div class="flex flex-col gap-2 max-w-2xl self-start">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+                    <span class="w-2 h-2 bg-primary"></span> System Alpha
+                </span>
+                <div class="rectangular-bubble bg-white p-6">
+                    <p class="text-sm md:text-base leading-relaxed">
                         Greetings! I specialize in extracting knowledge from your Dell documentation. Upload your PDFs and
-
                         I'll help you find answers instantly.
-</p>
-</div>
-</div>
- 
+                    </p>
+                </div>
+            </div>
+
             <!-- API Status - Adapted from original -->
-<div class="flex flex-col gap-2 max-w-2xl self-start">
-<span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
-<span class="w-2 h-2 bg-primary"></span> System Status
-</span>
-<div class="rectangular-bubble bg-white p-6">
-<p class="text-sm md:text-base leading-relaxed">
-
+            <div class="flex flex-col gap-2 max-w-2xl self-start">
+                <span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+                    <span class="w-2 h-2 bg-primary"></span> System Status
+                </span>
+                <div class="rectangular-bubble bg-white p-6">
+                    <p class="text-sm md:text-base leading-relaxed">
                         API Status: <span id="api-status">Connecting...</span>
-</p>
-</div>
-</div>
- 
+                    </p>
+                </div>
+            </div>
+
         </section>
-<!-- Input Section -->
-<footer class="p-8 bg-surface-container-low border-t-4 border-on-surface">
-<div class="max-w-5xl mx-auto flex gap-4 items-end">
-<div class="flex-grow relative">
-<label class="text-[10px] font-bold uppercase tracking-widest text-secondary mb-2 block">Command Input</label>
-<input class="w-full bg-white border-b-4 border-on-surface p-4 text-base focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline-variant placeholder:uppercase placeholder:text-[10px] placeholder:tracking-widest" placeholder="Type your inquiry here..." type="text" id="chat-input"/>
-</div>
-<button class="bg-primary text-white h-[60px] px-8 font-headline font-extrabold uppercase tracking-tighter hover:bg-primary-container transition-colors flex items-center gap-3 active:translate-y-0.5" id="send-btn">
-
+        <!-- Input Section -->
+        <footer class="p-8 bg-surface-container-low border-t-4 border-on-surface">
+            <div class="max-w-5xl mx-auto flex gap-4 items-end">
+                <div class="flex-grow relative">
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-secondary mb-2 block">Command Input</label>
+                    <input class="w-full bg-white border-b-4 border-on-surface p-4 text-base focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline-variant placeholder:uppercase placeholder:text-[10px] placeholder:tracking-widest" placeholder="Type your inquiry here..." type="text" id="chat-input"/>
+                </div>
+                <button class="bg-primary text-white h-[60px] px-8 font-headline font-extrabold uppercase tracking-tighter hover:bg-primary-container transition-colors flex items-center gap-3 active:translate-y-0.5" id="send-btn">
                     SEND
-<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-</footer>
-</main>
-<!-- The original HTML did not have a floating action button -->
-<!-- <button class="fixed bottom-32 right-8 bg-tertiary text-white w-16 h-16 flex items-center justify-center shadow-xl border-4 border-on-surface hover:scale-105 active:scale-95 transition-all z-50">
-<span class="material-symbols-outlined text-3xl" data-icon="edit">edit</span> </button> -->
- 
+                    <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+                </button>
+            </div>
+            <div class="max-w-5xl mx-auto mt-4 flex justify-between items-center text-[8px] font-bold uppercase tracking-[0.2em] text-outline">
+                <span>Model: CH-01-DES-ARCH</span>
+                <span>Latent Space: Connected</span>
+            </div>
+        </footer>
+    </main>
+    <!-- The original HTML did not have a floating action button -->
+    <!-- <button class="fixed bottom-32 right-8 bg-tertiary text-white w-16 h-16 flex items-center justify-center shadow-xl border-4 border-on-surface hover:scale-105 active:scale-95 transition-all z-50">
+        <span class="material-symbols-outlined text-3xl" data-icon="edit">edit</span> </button> -->
+
     <!-- Toast - Positioned outside main content for fixed display -->
-<div class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-surface-container-high border-2 border-primary text-primary text-sm font-bold uppercase tracking-widest rounded-none shadow-lg opacity-0 transition-all duration-300 z-50" id="toast"></div>
- 
+    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-surface-container-high border-2 border-primary text-primary text-sm font-bold uppercase tracking-widest rounded-none shadow-lg opacity-0 transition-all duration-300 z-50" id="toast"></div>
+
     <script>
-
         const chatMessages = document.getElementById('chat-messages');
-
         const chatInput = document.getElementById('chat-input');
-
         const sendBtn = document.getElementById('send-btn');
-
         const pdfUpload = document.getElementById('pdf-upload');
-
         const processBtn = document.getElementById('process-btn');
-
         const fileNameDisplay = document.getElementById('file-name-display');
-
         const docList = document.getElementById('doc-list');
-
         const apiStatus = document.getElementById('api-status');
-
         const toast = document.getElementById('toast');
-
         const dropZone = document.getElementById('drop-zone');
-
         const menuToggle = document.getElementById('menu-toggle');
-
         const sidebar = document.getElementById('sidebar');
-
         const overlay = document.getElementById('sidebar-overlay');
- 
+
         // Mobile Sidebar Logic
-
         menuToggle.addEventListener('click', () => {
-
             sidebar.classList.toggle('active');
-
             overlay.classList.toggle('active');
-
         });
- 
+
         overlay.addEventListener('click', () => {
-
             sidebar.classList.remove('active');
-
             overlay.classList.remove('active');
-
         });
- 
+
         // Drag and Drop Effects
-
         ['dragenter', 'dragover'].forEach(eventName => {
-
             dropZone.addEventListener(eventName, (e) => {
-
                 e.preventDefault();
-
                 dropZone.classList.add('border-primary', 'bg-primary/10'); // Tailwind classes for drag-active
-
             });
-
         });
- 
+
         ['dragleave', 'drop'].forEach(eventName => {
-
             dropZone.addEventListener(eventName, (e) => {
-
                 e.preventDefault();
-
                 dropZone.classList.remove('border-primary', 'bg-primary/10'); // Tailwind classes for drag-active
-
             });
-
         });
- 
+
         dropZone.addEventListener('drop', (e) => {
-
             const dt = e.dataTransfer;
-
             const files = dt.files;
-
             if (files.length > 0) {
-
                 pdfUpload.files = files;
-
                 updateFileDisplay(files[0].name);
-
             }
-
         });
- 
+
         function updateFileDisplay(name) {
-
             fileNameDisplay.textContent = name;
-
             fileNameDisplay.classList.add('text-primary'); // Use Tailwind class for color
-
             processBtn.disabled = false;
-
         }
- 
+
         pdfUpload.addEventListener('change', (e) => {
-
             if (e.target.files[0]) updateFileDisplay(e.target.files[0].name);
-
         });
- 
+
         // Health & Docs
-
         async function checkHealth() {
-
             try {
-
                 const response = await fetch('/health');
-
                 const data = await response.json();
-
                 if (response.ok && data.status === 'healthy') {
-
                     apiStatus.textContent = `Connected | ${data.pdf_count} Knowledge Bundles`;
-
                     apiStatus.classList.remove('text-error'); // Remove error color if previously set
-
                     apiStatus.classList.add('text-primary'); // Add a success-like color if desired
-
                 } else {
-
                     apiStatus.textContent = `Backend Offline: ${data.detail || 'Unknown error'}`;
-
                     apiStatus.classList.add('text-error');
-
                     apiStatus.classList.remove('text-primary');
-
                 }
-
                 updateDocDisplay(data.pdf_count);
-
             } catch (err) {
-
                 apiStatus.textContent = 'Backend Offline';
-
                 apiStatus.classList.add('text-error');
-
                 apiStatus.classList.remove('text-primary');
-
             }
-
         }
- 
+
         function updateDocDisplay(count) {
-
             docList.innerHTML = '<h3 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4">Documents</h3>'; // Re-add title
-
             if (count === 0) {
-
                 docList.innerHTML += '<div class="text-xs text-outline-variant py-2">Library is empty.</div>';
-
             } else {
-
                 const item = document.createElement('div');
-
                 item.className = 'flex items-center gap-4 p-3 bg-surface-container-low border-2 border-outline text-sm text-on-surface mb-2'; // New Bauhaus doc item style
-
                 item.innerHTML = `<span class="material-symbols-outlined text-primary">description</span> <span class="font-body font-medium">${count} Active Knowledge Source(s)</span>`;
-
                 docList.appendChild(item);
-
             }
-
         }
- 
+
         // Processing
-
         processBtn.addEventListener('click', async () => {
-
             const file = pdfUpload.files[0];
-
             if (!file) return;
- 
+
             processBtn.disabled = true;
-
             processBtn.innerHTML = `<span class="material-symbols-outlined animate-spin">progress_activity</span> <span class="ml-2">Indexing...</span>`; // Using Material Symbols for spinner
-
             showToast('Building knowledge index...', 'primary'); // Use Tailwind color name
- 
+
             const formData = new FormData();
-
             formData.append('file', file);
- 
+
             try {
-
                 const response = await fetch('/upload-pdf', {
-
                     method: 'POST',
-
                     body: formData
-
                 });
- 
+
                 if (response.ok) {
-
                     showToast('Knowledge Bundle Integrated!', 'accent'); // Use Tailwind color name
-
                     checkHealth();
-
                 } else {
-
                     const data = await response.json();
-
                     showToast(`Integration Failed: ${data.detail}`, 'error'); // Use Tailwind color name
-
                 }
-
             } catch (err) {
-
                 showToast('Network error during processing', 'error'); // Use Tailwind color name
-
             } finally {
-
                 processBtn.innerHTML = 'Process Knowledge';
-
                 processBtn.disabled = false;
-
             }
-
         });
- 
+
         // Chat Logic
-
         function addMessage(text, role, sources = []) {
-
             const msgContainer = document.createElement('div');
-
             msgContainer.className = `flex flex-col gap-2 max-w-2xl ${role === 'user' ? 'self-end items-end' : 'self-start'}`;
- 
-            const avatarAndRole = document.createElement('span');
-
-            avatarAndRole.className = `text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2`;
 
             if (role === 'user') {
+                msgContainer.classList.add('user-message-animated');
+            }
 
+            const avatarAndRole = document.createElement('span');
+            avatarAndRole.className = `text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2`;
+            if (role === 'user') {
                 avatarAndRole.innerHTML = `User Node <span class="w-2 h-2 bg-tertiary"></span>`;
-
             } else {
-
                 avatarAndRole.innerHTML = `<span class="w-2 h-2 bg-primary"></span> System Alpha`;
-
             }
-
             msgContainer.appendChild(avatarAndRole);
- 
+
             const messageBubble = document.createElement('div');
-
             messageBubble.className = `rectangular-bubble p-6 ${role === 'user' ? 'bg-surface-container-high' : 'bg-white'} relative overflow-hidden`;
-
             messageBubble.innerHTML = `<p class="text-sm md:text-base leading-relaxed mb-4">${text}</p>`;
- 
+
             if (sources && sources.length > 0) {
-
                 const sourcesContainer = document.createElement('div');
-
                 sourcesContainer.className = 'mt-4 pt-4 border-t-2 border-outline';
-
                 sourcesContainer.innerHTML = `<p class="text-[10px] font-bold uppercase tracking-widest text-secondary mb-2">Sources:</p>`;
-
                 sources.forEach(src => {
-
                     sourcesContainer.innerHTML += `
-<div class="mb-2 p-3 border-2 border-outline bg-surface-container-low">
-<p class="text-xs font-bold text-primary">${src.source} (Page ${src.page})</p>
-<p class="text-xs text-on-surface-variant">${src.content}</p>
-</div>
-
+                        <div class="mb-2 p-3 border-2 border-outline bg-surface-container-low">
+                            <p class="text-xs font-bold text-primary">${src.source} (Page ${src.page})</p>
+                            <p class="text-xs text-on-surface-variant">${src.content}</p>
+                        </div>
                     `;
-
                 });
-
                 messageBubble.appendChild(sourcesContainer);
-
             }
- 
+
             msgContainer.appendChild(messageBubble);
-
             chatMessages.appendChild(msgContainer);
-
             chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
-
         }
- 
+
         async function handleSend() {
-
             const question = chatInput.value.trim();
-
             if (!question) return;
- 
+
             addMessage(question, 'user');
-
             chatInput.value = '';
-
             sendBtn.disabled = true;
- 
+
             const typingContainer = document.createElement('div');
-
             typingContainer.className = 'flex flex-col gap-2 max-w-2xl self-start';
-
             typingContainer.id = 'typing-indicator-msg';
-
             typingContainer.innerHTML = `
-<span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
-<span class="w-2 h-2 bg-primary"></span> System Alpha
-</span>
-<div class="rectangular-bubble bg-white p-6">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined animate-pulse text-primary">pending</span>
-<span class="text-sm text-on-surface-variant">Thinking...</span>
-</div>
-</div>
-
+                <span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
+                    <span class="w-2 h-2 bg-primary"></span> System Alpha
+                </span>
+                <div class="rectangular-bubble bg-white p-6">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined animate-pulse text-primary">pending</span>
+                        <span class="text-sm text-on-surface-variant">Thinking...</span>
+                    </div>
+                </div>
             `;
-
             chatMessages.appendChild(typingContainer);
-
             chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: 'smooth' });
- 
+
             try {
-
                 const response = await fetch('/ask', {
-
                     method: 'POST',
-
                     headers: { 'Content-Type': 'application/json' },
-
                     body: JSON.stringify({ question })
-
                 });
- 
+
                 const data = await response.json();
-
                 if (document.getElementById('typing-indicator-msg')) {
-
                     document.getElementById('typing-indicator-msg').remove();
-
                 }
- 
+
                 if (response.ok) {
-
                     addMessage(data.answer, 'bot', data.sources);
-
                 } else {
-
                     addMessage(`I encountered an obstacle: ${data.detail || 'Analysis failed'}`, 'bot');
-
                 }
-
             } catch (err) {
-
                 if (document.getElementById('typing-indicator-msg')) {
-
                     document.getElementById('typing-indicator-msg').remove();
-
                 }
-
                 addMessage('Network disruption. Please verify the backend connection.', 'bot');
-
             } finally {
-
                 sendBtn.disabled = false;
-
             }
-
         }
- 
+
         sendBtn.addEventListener('click', handleSend);
-
         chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleSend(); });
- 
+
         function showToast(text, colorClass) {
-
             // Map color names to Tailwind classes if needed, or use direct classes
-
             let borderColor = '';
-
             let textColor = '';
-
             if (colorClass === 'primary') {
-
                 borderColor = 'border-primary';
-
                 textColor = 'text-primary';
-
             } else if (colorClass === 'accent') {
-
                 borderColor = 'border-accent'; // Assuming 'accent' is defined in Tailwind config
-
                 textColor = 'text-accent';
-
             } else if (colorClass === 'error') {
-
                 borderColor = 'border-error';
-
                 textColor = 'text-error';
-
             } else {
-
                 borderColor = 'border-outline';
-
                 textColor = 'text-on-surface';
-
             }
- 
+
             toast.textContent = text;
-
             toast.className = `fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-surface-container-high border-2 ${borderColor} ${textColor} text-sm font-bold uppercase tracking-widest rounded-none shadow-lg opacity-100 transition-all duration-300 z-50`;
-
             setTimeout(() => {
-
                 toast.classList.remove('opacity-100');
-
                 toast.classList.add('opacity-0');
-
             }, 3500);
-
         }
- 
+
         // Init
-
         checkHealth();
-
         setInterval(checkHealth, 15000);
-</script>
+    </script>
 </body>
 </html>
- 
