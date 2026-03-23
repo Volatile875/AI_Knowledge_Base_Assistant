@@ -2,7 +2,7 @@
 
 This is our first corporate project - an AI-powered knowledge base assistant that answers questions about Dell computer company knowledge using Retrieval-Augmented Generation (RAG) architecture.
 
-## 🎯 Project Objective
+##  Project Objective
 
 Build an AI assistant that:
 - Answers questions from a dataset (PDF documents)
@@ -10,7 +10,7 @@ Build an AI assistant that:
 - Provides context-aware responses
 - Uses modern AI techniques for accurate and helpful answers
 
-## 🏗️ Architecture
+##  Architecture
 
 ### System Components
 
@@ -40,12 +40,12 @@ PDF Documents → Text Extraction → Text Chunking → Embeddings → Vector St
 User Question → Embedding → Similarity Search → Retrieved Chunks → LLM → Answer
 ```
 
-## 📚 Learning Topics Covered
+##  Learning Topics Covered
 
 ### 1. LLM Fundamentals
 - Large Language Models (LLMs) are AI models trained on vast amounts of text data
 - They can generate human-like text, answer questions, and perform various language tasks
-- In this project: OpenAI GPT models for generating context-aware responses
+- In this project: llama3.1:8b models for generating context-aware responses
 
 ### 2. Prompt Engineering
 - Crafting effective prompts to get better responses from LLMs
@@ -71,11 +71,11 @@ User Question → Embedding → Similarity Search → Retrieved Chunks → LLM �
   - Provides factual, source-backed answers
   - Handles domain-specific knowledge better than base LLMs
 
-## 🚀 Setup & Installation
+##  Setup & Installation
 
 ### Prerequisites
 - Python 3.8+
-- OpenAI API key
+- Ollama pulled model llama3.1:8b
 
 ### Installation
 
@@ -117,7 +117,7 @@ streamlit run frontend.py
 - **Frontend**: http://localhost:8501
 - **API Documentation**: http://localhost:8000/docs
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 AI_Knowledge_Base_Assistant/
@@ -135,11 +135,10 @@ AI_Knowledge_Base_Assistant/
 - **FastAPI**: High-performance async web framework
 - **Streamlit**: Easy-to-use web app framework for ML/AI
 - **LangChain**: Framework for LLM applications
-- **FAISS**: Efficient similarity search and clustering
-- **OpenAI**: LLM provider for embeddings and text generation
+- **Olama**: LLM provider for embeddings and text generation
 - **PyPDF2**: PDF text extraction
 
-## 🎯 Features
+## Features
 
 - ✅ PDF document upload and processing
 - ✅ Semantic search using embeddings
@@ -157,7 +156,7 @@ AI_Knowledge_Base_Assistant/
    - "Tell me about Dell's warranty policies"
    - "How does Dell's customer support work?"
 
-## 📈 Challenges Faced & Solutions
+##  Challenges Faced & Solutions
 
 ### Challenge 1: PDF Text Extraction
 - **Problem**: PDFs can have complex layouts, images, tables
@@ -175,15 +174,14 @@ AI_Knowledge_Base_Assistant/
 - **Problem**: Rebuilding vector store on every restart
 - **Solution**: Implemented automatic initialization on startup with file-based storage option
 
-## 🔮 Future Improvements
+## Future Improvements
 
 - Add support for multiple document formats (DOCX, TXT)
-- Implement user authentication and conversation history
 - Add document metadata and filtering capabilities
 - Integrate with local LLM models for offline operation
 - Add evaluation metrics and response quality assessment
 
-## 📝 Deliverables Checklist
+##  Deliverables Checklist
 
 - ✅ Working AI assistant
 - ✅ Code repository with proper structure
