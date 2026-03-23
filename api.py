@@ -43,6 +43,7 @@ app.add_middleware(
 vectorizer = None
 chunk_vectors = None
 chunk_store = []
+VECTORSTORE_VERSION = 1
 
 
 class QuestionRequest(BaseModel):
@@ -65,6 +66,21 @@ def get_pdf_paths() -> List[Path]:
     """Return all PDFs currently stored in the data directory."""
     ensure_directories()
     return sorted(DATA_DIR.glob("*.pdf"))
+
+
+def get_pdf_manifest(pdf_paths: List[Path]) -> List[dict]:
+    """Capture the PDF files that a vector store was built from."""
+    manifest = []
+    for pdf_path in pdf_paths:
+        stats = pdf_path.stat()
+        manifest.append(
+            {
+                "name": pdf_path.name,
+                "size": stats.st_size,
+                "modified": stats.st_mtime_ns,
+            }
+        )
+    return manifest
 
 
 def load_documents(pdf_paths: List[Path]):
@@ -120,32 +136,94 @@ def split_documents(documents):
     return chunks
 
 
-def save_vectorstore(current_vectorizer, current_chunk_vectors, metadata: List[dict]) -> None:
+def save_vectorstore(
+    current_vectorizer, current_chunk_vectors, metadata: List[dict], pdf_manifest: List[dict]
+) -> None:
     """Persist the vectorizer, chunk vectors, and chunk metadata."""
-    with VECTORSTORE_FILE.open("wb") as store_file:
+    temp_file = VECTORSTORE_FILE.with_suffix(".tmp")
+    with temp_file.open("wb") as store_file:
         pickle.dump(
             {
+                "version": VECTORSTORE_VERSION,
                 "vectorizer": current_vectorizer,
                 "chunk_vectors": current_chunk_vectors,
                 "chunk_store": metadata,
+                "pdf_manifest": pdf_manifest,
             },
             store_file,
         )
+    temp_file.replace(VECTORSTORE_FILE)
 
 
-def load_vectorstore_from_disk() -> bool:
+def vectorstore_matches_pdfs(saved_store: dict, pdf_paths: List[Path]) -> bool:
+    """Return True when the saved vector store matches the current PDF set."""
+    saved_manifest = saved_store.get("pdf_manifest")
+    if not isinstance(saved_manifest, list):
+        return False
+    return saved_manifest == get_pdf_manifest(pdf_paths)
+
+
+def reset_knowledge_base() -> None:
+    """Clear in-memory vector store state."""
+    global vectorizer, chunk_vectors, chunk_store
+    vectorizer = None
+    chunk_vectors = None
+    chunk_store = []
+
+
+def remove_vectorstore_file() -> None:
+    """Delete an invalid vector store so the app can rebuild cleanly."""
+    if VECTORSTORE_FILE.exists():
+        try:
+            VECTORSTORE_FILE.unlink()
+        except OSError:
+            pass
+
+
+def load_vectorstore_from_disk(pdf_paths: List[Path]) -> bool:
     """Load a previously built vector store if it exists."""
     global vectorizer, chunk_vectors, chunk_store
 
     if not VECTORSTORE_FILE.exists():
         return False
 
-    with VECTORSTORE_FILE.open("rb") as store_file:
-        saved_store = pickle.load(store_file)
+    try:
+        with VECTORSTORE_FILE.open("rb") as store_file:
+            saved_store = pickle.load(store_file)
+    except Exception:
+        reset_knowledge_base()
+        remove_vectorstore_file()
+        return False
+
+    if not isinstance(saved_store, dict):
+        reset_knowledge_base()
+        remove_vectorstore_file()
+        return False
+
+    expected_keys = {"version", "vectorizer", "chunk_vectors", "chunk_store", "pdf_manifest"}
+    if not expected_keys.issubset(saved_store):
+        reset_knowledge_base()
+        remove_vectorstore_file()
+        return False
+
+    if saved_store.get("version") != VECTORSTORE_VERSION:
+        reset_knowledge_base()
+        remove_vectorstore_file()
+        return False
+
+    if not vectorstore_matches_pdfs(saved_store, pdf_paths):
+        reset_knowledge_base()
+        return False
 
     vectorizer = saved_store["vectorizer"]
     chunk_vectors = saved_store["chunk_vectors"]
     chunk_store = saved_store["chunk_store"]
+
+    if chunk_vectors is None or not chunk_store:
+        reset_knowledge_base()
+        remove_vectorstore_file()
+        return False
+
     return True
 
 
@@ -167,7 +245,7 @@ def build_knowledge_base(pdf_paths: List[Path]) -> dict:
     vectorizer = TfidfVectorizer(stop_words="english")
     chunk_vectors = vectorizer.fit_transform([chunk["content"] for chunk in chunks])
     chunk_store = chunks
-    save_vectorstore(vectorizer, chunk_vectors, chunk_store)
+    save_vectorstore(vectorizer, chunk_vectors, chunk_store, get_pdf_manifest(pdf_paths))
 
     return {
         "pdf_count": len(pdf_paths),
@@ -179,7 +257,13 @@ def build_knowledge_base(pdf_paths: List[Path]) -> dict:
 def initialize_knowledge_base() -> None:
     """Load a saved index if one already exists."""
     ensure_directories()
-    load_vectorstore_from_disk()
+    pdf_paths = get_pdf_paths()
+    if not pdf_paths:
+        reset_knowledge_base()
+        return
+
+    if not load_vectorstore_from_disk(pdf_paths):
+        build_knowledge_base(pdf_paths)
 
 
 def generate_answer(question: str, retrieved_docs) -> str:
