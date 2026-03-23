@@ -208,7 +208,7 @@
             transform: rotate(15deg);
 
         }
-</style>
+    </style>
 </head>
 <body class="font-body selection:bg-primary selection:text-white">
 <div class="bauhaus-accent-circle"></div>
@@ -217,125 +217,80 @@
     <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden md:hidden" id="sidebar-overlay"></div>
  
     <!-- Sidebar -->
-<aside class="fixed left-0 top-0 h-full flex flex-col pt-24 pb-8 z-40 bg-[#fbf3e4] dark:bg-zinc-900 h-screen w-72 rounded-none border-r-4 border-[#b7102a]" id="sidebar">
-<div class="px-6 mb-8">
-<h2 class="text-xl font-black text-[#b7102a] font-headline uppercase tracking-tighter">WORKSHOP</h2>
-<p class="font-['Inter'] font-medium text-xs uppercase tracking-widest text-secondary">V.1.0.4</p>
-</div>
-<nav class="flex-grow flex flex-col">
-<!-- The original HTML did not have these navigation buttons, keeping only essential functional elements -->
-<!-- <a class="bg-[#b7102a] text-white font-bold px-6 py-4 flex items-center gap-4 rounded-none transition-transform active:scale-[0.98]" href="#" id="new-session-btn">
-<span class="material-symbols-outlined" data-icon="add_box">add_box</span> New Session </a>
-<a class="text-[#485f84] dark:text-zinc-400 px-6 py-4 flex items-center gap-4 hover:bg-[#b7102a]/10 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="format_list_bulleted">format_list_bulleted</span> Chat History </a>
-<a class="text-[#485f84] dark:text-zinc-400 px-6 py-4 flex items-center gap-4 hover:bg-[#b7102a]/10 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="Architecture">architecture</span> Model Lab </a>
-<a class="text-[#485f84] dark:text-zinc-400 px-6 py-4 flex items-center gap-4 hover:bg-[#b7102a]/10 transition-all duration-150" href="#">
-<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span> User Profile </a> -->
- 
-            <!-- Upload Knowledge Section - Adapted from original -->
-<div class="px-6 mt-8">
-<h3 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4">Upload Knowledge</h3>
-<div class="relative w-full h-32 border-2 border-dashed border-outline rounded-none flex flex-col items-center justify-center cursor-pointer bg-surface-container-low hover:border-primary hover:bg-primary/10 transition-all" id="drop-zone">
-<input type="file" id="pdf-upload" accept=".pdf" class="absolute w-full h-full opacity-0 cursor-pointer">
-<div class="text-4xl text-primary mb-2">📄</div>
-<div class="text-xs text-outline-variant text-center px-4" id="file-name-display">Drag & Drop PDF or Click</div>
-</div>
-<button class="w-full bg-primary text-white py-3 font-headline font-bold text-xs tracking-widest hover:bg-primary-container transition-colors duration-200 uppercase mt-4" id="process-btn" disabled>Process Knowledge</button>
-</div>
- 
-            <!-- Documents List - Adapted from original -->
-<div class="px-6 mt-8 flex-grow overflow-y-auto" id="doc-list">
-<h3 class="text-xs font-bold uppercase tracking-widest text-secondary mb-4">Documents</h3>
-<div class="text-xs text-outline-variant py-2">Refreshing documents...</div>
-</div>
- 
-        </nav>
-<!-- The original HTML did not have an "UPGRADE PRO" button -->
-<!-- <div class="px-6 mt-auto">
-<button class="w-full bg-tertiary-container text-white py-4 font-headline font-bold text-xs tracking-widest hover:bg-[#996c00] transition-colors duration-200 uppercase"> UPGRADE PRO </button>
-</div> -->
-</aside>
- 
-    <!-- TopAppBar -->
-<header class="fixed top-0 right-0 left-0 flex justify-between items-center w-full px-8 h-20 border-b-4 border-[#b7102a] bg-[#fff8f0] dark:bg-zinc-950 z-50">
-<div class="flex items-center gap-8 pl-72">
-<span class="text-2xl font-black tracking-tighter text-[#b7102a] dark:text-red-600 font-headline uppercase">AI KNOWLEDGE BASE ASSISTANT</span>
-</div>
-<div class="flex items-center gap-4">
-<!-- The original HTML did not have settings or help buttons in the header -->
-<!-- <button class="p-2 text-[#b7102a] hover:bg-[#b7102a] hover:text-white transition-colors duration-200">
-<span class="material-symbols-outlined" data-icon="settings">settings</span> </button>
-<button class="p-2 text-[#b7102a] hover:bg-[#b7102a] hover:text-white transition-colors duration-200">
-<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span> </button> -->
-</div>
-</header>
- 
-    <!-- Mobile Header - Adapted from original -->
-<div class="fixed top-0 left-0 w-full h-20 flex justify-between items-center px-4 bg-[#fff8f0] dark:bg-zinc-950 border-b-4 border-[#b7102a] z-50 md:hidden">
-<button class="text-2xl text-primary" id="menu-toggle">☰</button>
-<span class="text-xl font-black tracking-tighter text-primary font-headline uppercase">CH-01 AI</span>
-<div style="width: 24px;"></div> <!-- Spacer -->
-</div>
-<div>
-    
-</div>
- 
-    <!-- Main Canvas -->
-<main class="pl-72 pt-20 h-screen flex flex-col bauhaus-grid">
-<!-- Chat Area -->
-<section class="flex-grow overflow-y-auto px-12 py-12 flex flex-col gap-12 max-w-5xl mx-auto w-full" id="chat-messages">
-<!-- System/AI Welcome - Initial message, will be replaced by JS -->
-<div class="flex flex-col gap-2 max-w-2xl self-start">
-<span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
-<span class="w-2 h-2 bg-primary"></span> System Alpha
-</span>
-<div class="rectangular-bubble bg-white p-6">
-<p class="text-sm md:text-base leading-relaxed">
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <span class="logo-icon">🤖</span>
+            <span class="logo-text">AI Assistant</span>
+        </div>
 
-                        Greetings! I specialize in extracting knowledge from your Dell documentation. Upload your PDFs and
+        <div class="upload-container">
+            <h3 class="section-title">Upload Knowledge</h3>
+            <div class="file-input-wrapper" id="drop-zone">
+                <input type="file" id="pdf-upload" accept=".pdf">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text" id="file-name-display">Drag & Drop PDF or Click</div>
+            </div>
+            <button class="upload-btn" id="process-btn" disabled>Process Knowledge</button>
+        </div>
 
-                        I'll help you find answers instantly.
-</p>
-</div>
-</div>
- 
-            <!-- API Status - Adapted from original -->
-<div class="flex flex-col gap-2 max-w-2xl self-start">
-<span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
-<span class="w-2 h-2 bg-primary"></span> System Status
-</span>
-<div class="rectangular-bubble bg-white p-6">
-<p class="text-sm md:text-base leading-relaxed">
+        <h3 class="section-title">Documents</h3>
+        <div class="doc-list" id="doc-list">
+            <div style="color: var(--text-muted); font-size: 12px; padding: 10px;">Refreshing documents...</div>
+        </div>
+    </div>
 
-                        API Status: <span id="api-status">Connecting...</span>
-</p>
-</div>
-</div>
- 
-        </section>
-<!-- Input Section -->
-<footer class="p-8 bg-surface-container-low border-t-4 border-on-surface">
-<div class="max-w-5xl mx-auto flex gap-4 items-end">
-<div class="flex-grow relative">
-<label class="text-[10px] font-bold uppercase tracking-widest text-secondary mb-2 block">Command Input</label>
-<input class="w-full bg-white border-b-4 border-on-surface p-4 text-base focus:outline-none focus:border-primary focus:bg-surface-container-lowest transition-all placeholder:text-outline-variant placeholder:uppercase placeholder:text-[10px] placeholder:tracking-widest" placeholder="Type your inquiry here..." type="text" id="chat-input"/>
-</div>
-<button class="bg-primary text-white h-[60px] px-8 font-headline font-extrabold uppercase tracking-tighter hover:bg-primary-container transition-colors flex items-center gap-3 active:translate-y-0.5" id="send-btn">
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Mobile Header -->
+        <div class="header-mobile">
+            <button class="menu-toggle" id="menu-toggle">☰</button>
+            <div class="logo" style="margin-bottom: 0;">
+                <span class="logo-text" style="font-size: 16px;">AI Assistant</span>
+            </div>
+            <div style="width: 32px;"></div> <!-- Spacer -->
+        </div>
 
-                    SEND
-<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
-</button>
-</div>
-</footer>
-</main>
-<!-- The original HTML did not have a floating action button -->
-<!-- <button class="fixed bottom-32 right-8 bg-tertiary text-white w-16 h-16 flex items-center justify-center shadow-xl border-4 border-on-surface hover:scale-105 active:scale-95 transition-all z-50">
-<span class="material-symbols-outlined text-3xl" data-icon="edit">edit</span> </button> -->
- 
-    <!-- Toast - Positioned outside main content for fixed display -->
-<div class="fixed bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-surface-container-high border-2 border-primary text-primary text-sm font-bold uppercase tracking-widest rounded-none shadow-lg opacity-0 transition-all duration-300 z-50" id="toast"></div>
- 
+        <!-- Desktop Header -->
+        <div class="chat-header">
+            <div>
+                <h2 style="font-size: 20px; font-weight: 700; letter-spacing: -0.5px;">Knowledge Base Chat</h2>
+                <div style="display: flex; align-items: center; margin-top: 4px;">
+                    <span class="status-dot"></span>
+                    <p style="font-size: 12px; font-weight: 600; color: var(--text-muted);" id="api-status">
+                        Connecting...</p>
+                </div>
+            </div>
+            <div style="text-align: right; color: var(--text-muted); font-size: 11px; font-weight: 500;">f
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot-message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    Greetings! I specialize in extracting knowledge from your Dell documentation. Upload your PDFs and
+                    I'll help you find answers instantly.
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="input-wrapper">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Query the knowledge base..."
+                    autocomplete="off">
+                <button class="send-btn" id="send-btn" title="Send Question">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
     <script>
 
         const chatMessages = document.getElementById('chat-messages');
@@ -563,58 +518,26 @@
         // Chat Logic
 
         function addMessage(text, role, sources = []) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `message ${role}-message`;
 
-            const msgContainer = document.createElement('div');
-
-            msgContainer.className = `flex flex-col gap-2 max-w-2xl ${role === 'user' ? 'self-end items-end' : 'self-start'}`;
- 
-            const avatarAndRole = document.createElement('span');
-
-            avatarAndRole.className = `text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2`;
-
-            if (role === 'user') {
-
-                avatarAndRole.innerHTML = `User Node <span class="w-2 h-2 bg-tertiary"></span>`;
-
-            } else {
-
-                avatarAndRole.innerHTML = `<span class="w-2 h-2 bg-primary"></span> System Alpha`;
-
-            }
-
-            msgContainer.appendChild(avatarAndRole);
- 
-            const messageBubble = document.createElement('div');
-
-            messageBubble.className = `rectangular-bubble p-6 ${role === 'user' ? 'bg-surface-container-high' : 'bg-white'} relative overflow-hidden`;
-
-            messageBubble.innerHTML = `<p class="text-sm md:text-base leading-relaxed mb-4">${text}</p>`;
- 
-            if (sources && sources.length > 0) {
-
-                const sourcesContainer = document.createElement('div');
-
-                sourcesContainer.className = 'mt-4 pt-4 border-t-2 border-outline';
-
-                sourcesContainer.innerHTML = `<p class="text-[10px] font-bold uppercase tracking-widest text-secondary mb-2">Sources:</p>`;
-
-                sources.forEach(src => {
-
-                    sourcesContainer.innerHTML += `
-<div class="mb-2 p-3 border-2 border-outline bg-surface-container-low">
-<p class="text-xs font-bold text-primary">${src.source} (Page ${src.page})</p>
-<p class="text-xs text-on-surface-variant">${src.content}</p>
-</div>
-
-                    `;
-
-                });
-
-                messageBubble.appendChild(sourcesContainer);
-
-            }
- 
-            msgContainer.appendChild(messageBubble);
+            msgDiv.innerHTML = `
+                <div class="message-avatar">${role === 'user' ? '👤' : '🤖'}</div>
+                <div class="message-content">
+                    ${text}
+                    ${sources && sources.length > 0 ? `
+                        <div class="sources-container">
+                            <div style="font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.5px;">SOURCES:</div>
+                            ${sources.map(src => `
+                                <div class="source-card">
+                                    <div class="source-header"><span>•</span> ${src.source} (Page ${src.page})</div>
+                                    <div style="opacity: 0.85; line-height: 1.5">${src.content}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
 
             chatMessages.appendChild(msgContainer);
 
@@ -633,24 +556,15 @@
             chatInput.value = '';
 
             sendBtn.disabled = true;
- 
-            const typingContainer = document.createElement('div');
 
-            typingContainer.className = 'flex flex-col gap-2 max-w-2xl self-start';
-
-            typingContainer.id = 'typing-indicator-msg';
-
-            typingContainer.innerHTML = `
-<span class="text-[10px] font-bold uppercase tracking-widest text-secondary flex items-center gap-2">
-<span class="w-2 h-2 bg-primary"></span> System Alpha
-</span>
-<div class="rectangular-bubble bg-white p-6">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined animate-pulse text-primary">pending</span>
-<span class="text-sm text-on-surface-variant">Thinking...</span>
-</div>
-</div>
-
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot-message';
+            typingDiv.id = 'typing-indicator-msg';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="typing-indicator"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                </div>
             `;
 
             chatMessages.appendChild(typingContainer);
@@ -670,13 +584,8 @@
                 });
  
                 const data = await response.json();
+                document.getElementById('typing-indicator-msg').remove();
 
-                if (document.getElementById('typing-indicator-msg')) {
-
-                    document.getElementById('typing-indicator-msg').remove();
-
-                }
- 
                 if (response.ok) {
 
                     addMessage(data.answer, 'bot', data.sources);
