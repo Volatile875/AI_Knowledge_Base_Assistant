@@ -107,15 +107,16 @@ python app.py frontend
 **Option 2: Run separately**
 ```bash
 # API Server (FastAPI)
-uvicorn api:app --host 0.0.0.0 --port 8000 --reload
+uvicorn api:app --host 127.0.0.1 --port 8000 --reload
 
 # Frontend (Streamlit)
 streamlit run frontend.py
 ```
 
 ### Accessing the Application
-- **Frontend**: http://localhost:8501
-- **API Documentation**: http://localhost:8000/docs
+- **Frontend served by FastAPI**: http://127.0.0.1:8000
+- **Streamlit frontend**: http://localhost:8501
+- **API Documentation**: http://127.0.0.1:8000/docs
 
 ##  Project Structure
 
