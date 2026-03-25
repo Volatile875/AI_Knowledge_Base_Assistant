@@ -1,7 +1,7 @@
 
 *.py[cod]
 
-vectorstore/
+
 data/
 
 .env
